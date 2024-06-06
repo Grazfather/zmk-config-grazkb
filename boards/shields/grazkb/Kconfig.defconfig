@@ -1,0 +1,6 @@
+if SHIELD_GRAZKB
+
+config ZMK_KEYBOARD_NAME
+    default "grazkb"
+
+endif
