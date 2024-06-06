@@ -10,6 +10,17 @@
 
 
 / {
+    behaviors {
+        // hypctrl: hyper_ctrl {
+        // };
+        hypspc: hyper_space {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp SPACE>, <&kp LA(LC(LGUI))>;
+            mods = <(MOD_LCTRL)>;
+        };
+        }
+    };
     keymap {
         compatible = "zmk,keymap";
 
@@ -30,9 +41,11 @@
             bindings = <
                 &kp GRAVE    &kp N1       &kp N2      &kp N3   &kp N4     &kp N5      &kp N6      &kp N7  &kp N8      &kp N9      &kp N0      &kp BSPC
                 &kp TAB      &kp Q        &kp W       &kp F    &kp P      &kp V       &kp J       &kp L   &kp U       &kp Y       &kp SEMI    &kp BSLH
-                &lt 3 ESC    &kp A        &kp R       &kp S    &kp T      &kp G       &kp M       &kp N   &kp E       &kp I       &kp O       &kp SQT
+                &mt LCTRL ESC &kp A        &kp R       &kp S    &kp T      &kp G       &kp M       &kp N   &kp E       &kp I       &kp O       &kp SQT
+                // &lt 3 ESC    &kp A        &kp R       &kp S    &kp T      &kp G       &kp M       &kp N   &kp E       &kp I       &kp O       &kp SQT
                 &kp LSHFT    &kp Z        &kp X       &kp C    &kp D      &kp B       &kp K       &kp H   &kp COMMA   &kp DOT     &kp FSLH    &kp RSHFT
-                             &none        &kp LALT    &kp LGUI &kp SPACE  &kp ESC     &kp BSPC    &lt 1 ENTER &none    &none      &mo 2
+                             &none        &kp LALT    &kp LGUI &hypspc    &kp ESC     &kp BSPC    &lt 1 ENTER &none    &none      &mo 2
+                             // &none        &kp LALT    &kp LGUI &kp SPACE  &kp ESC     &kp BSPC    &lt 1 ENTER &none    &none      &mo 2
             >;
         };
         symbol_layer {
