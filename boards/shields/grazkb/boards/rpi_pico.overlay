@@ -1,11 +1,12 @@
 #include <zephyr/dt-bindings/pinctrl/rpi-pico-rp2040-pinctrl.h>
 #include <dt-bindings/led/led.h>
 #include <rpi_pico/rp2040.dtsi>
+#include <freq.h>
 // #include "boards/sparkfun/pro_micro_rp2040/sparkfun_pro_micro_rp2040-pinctrl.dtsi"
 // #include "sparkfun_pro_micro_rp2040-pinctrl.dtsi"
 // #include "sparkfun_pro_micro_connector.dtsi"
 // #include <zephyr/boards/adafruit/kb2040/adafruit_kb2040-pinctrl.dtsi>
-#include <freq.h>
+// #include <zephyr/dt-bindings/led_strip/ws2812_rpi_pico_pio.dtsi>
 
 // &pio0 means that this overlay is a child of pio0, which should be defined for the rp2040 board already
 &pio0 {
