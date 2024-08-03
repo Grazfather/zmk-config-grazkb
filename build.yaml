@@ -19,4 +19,5 @@
 ---
 include:
   - board: rpi_pico
-    shield: grazkb
+    shield: grazkb nice_view
+    # nice_view_adapter # needed?
