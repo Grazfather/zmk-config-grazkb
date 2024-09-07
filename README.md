@@ -5,5 +5,6 @@
 4. Run
 
 ```bash
-west build -b rpi_pico -- -DSHIELD=grazkb -DZMK_EXTRA_MODULES=/Users/graziano/code/zmk-config-grazkb/
+west build -p -b rpi_pico -- -DSHIELD="grazkb nice_view" -DZMK_EXTRA_MODULES=/Users/graziano/code/zmk-config-grazkb/
+west build -p -b rpi_pico -- -DSHIELD="display_test" -DZMK_EXTRA_MODULES=/Users/graziano/code/zmk-config-grazkb/
 ```

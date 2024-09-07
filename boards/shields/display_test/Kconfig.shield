@@ -1,5 +1,5 @@
-config SHIELD_GRAZKB
-    def_bool $(shields_list_contains,grazkb)
+config SHIELD_DISPLAY_TEST
+    def_bool $(shields_list_contains,display_test)
 
 config LV_Z_BITS_PER_PIXEL
     default 1

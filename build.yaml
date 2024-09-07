@@ -20,3 +20,5 @@
 include:
   - board: rpi_pico
     shield: grazkb
+  - board: rpi_pico
+    shield: display_test

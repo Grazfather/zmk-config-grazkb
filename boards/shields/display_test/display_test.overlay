@@ -1,0 +1,89 @@
+#include <dt-bindings/zmk/matrix_transform.h>
+
+/ {
+    chosen {
+        zmk,kscan = &default_kscan;
+        zmk,matrix_transform = &default_transform;
+	zephyr,display = &nice_view;
+	zephyr,console = &usb_cdc;
+	zephyr,shell-uart = &usb_cdc;
+    };
+    aliases {
+	nice-view = &nice_view;
+    };
+
+    default_kscan: kscan {
+        compatible = "zmk,kscan-gpio-matrix";
+        diode-direction = "col2row";
+
+        row-gpios = <&gpio0 28 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+        col-gpios = <&gpio0 8 (GPIO_ACTIVE_HIGH)>;
+    };
+
+    default_transform: matrix_transform {
+        compatible = "zmk,matrix-transform";
+        rows = <10>;
+        columns = <6>;
+
+        map = <
+            RC(0,5)
+        >;
+    };
+};
+
+// Disable uart0 since its pins collide with the pins I'm using for PIO SPI
+&uart0 {
+	status = "disabled";
+};
+
+&pinctrl {
+	pio0_spi0_default: pio0_spi0_default {
+		group1 {
+			// clk, mosi
+			pinmux = <PIO0_P2>, <PIO0_P0>;
+		};
+	};
+	pio0_spi0_sleep: pio0_spi0_sleep {
+		group1 {
+			// clk, mosi
+			pinmux = <PIO0_P2>, <PIO0_P0>;
+		};
+	};
+};
+
+&pio0 {
+	status = "okay";
+	pio-spi {
+		compatible = "raspberrypi,pico-spi-pio";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		clocks = <&system_clk>;
+		clock-frequency = <1000000>;
+		pinctrl-0 = <&pio0_spi0_default>;
+		pinctrl-names = "default";
+		pinctrl-1 = <&pio0_spi0_sleep>;
+		pinctrl-names = "default", "sleep";
+		//status = "okay";
+		cs-gpios = <&gpio0 1 GPIO_ACTIVE_HIGH>;
+		clk-gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>;
+		mosi-gpios = <&gpio0 0 GPIO_ACTIVE_HIGH>;
+		// This GPIO is not connected to the waveshare zero, it seems I need something though
+		miso-gpios = <&gpio0 25 GPIO_ACTIVE_HIGH>;
+		nice_view: nice-view@0 {
+			compatible = "sharp,ls0xx";
+			reg = <0>;
+			width = <160>;
+			height = <68>;
+			spi-max-frequency = <1000000>;
+			/delete-property/ spi-cpol; // CPOL 0
+                        /delete-property/ spi-cpha; // CPHA 0
+		};
+	};
+};
+
+// Enable debugging over UART over USB (USB CDC)
+&zephyr_udc0 {
+        usb_cdc: usb_cdc_0 {
+                compatible = "zephyr,cdc-acm-uart";
+        };
+};
