@@ -1,11 +1,11 @@
 #include <dt-bindings/zmk/matrix_transform.h>
+#include <zephyr/dt-bindings/led/led.h>
 
 / {
     chosen {
         zmk,kscan = &default_kscan;
         zmk,matrix_transform = &default_transform;
-        // This would require _another_ PIO device to get setup. I can do it later.
-        //zmk,underglow = &status_led;
+        zmk,underglow = &status_led;
         zephyr,display = &nice_view;
     };
 
@@ -52,6 +52,11 @@
 };
 
 &pinctrl {
+        ws2812_spi_default: ws2812_spi_default {
+                ws2812 {
+                        pinmux = <PIO0_P16>;
+                };
+        };
         pio0_spi0_default: pio0_spi0_default {
                 group1 {
                         // clk, mosi
@@ -92,6 +97,39 @@
                         spi-max-frequency = <1000000>;
                         /delete-property/ spi-cpol; // CPOL 0
                         /delete-property/ spi-cpha; // CPHA 0
+                };
+        };
+};
+
+&pio1 {
+        status = "okay";
+        pio-spi {
+                compatible = "raspberrypi,pico-spi-pio";
+                #address-cells = <1>;
+                #size-cells = <0>;
+                clocks = <&system_clk>;
+                clock-frequency = <4000000>;
+                // TODO: Rename
+                pinctrl-0 = <&ws2812_spi_default>;
+                pinctrl-names = "default";
+                // Not used
+                cs-gpios = <&gpio0 23 GPIO_ACTIVE_HIGH>;
+                // Not used
+                clk-gpios = <&gpio0 25 GPIO_ACTIVE_HIGH>;
+                // Not used
+                miso-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+                mosi-gpios = <&gpio0 16 GPIO_ACTIVE_HIGH>;
+                status_led: ws2812@0 {
+                        status = "okay";
+                        compatible = "worldsemi,ws2812-spi";
+                        reg = <0>;
+                        chain-length = <1>;
+                        spi-max-frequency = <4000000>;
+                        color-mapping = <LED_COLOR_ID_RED
+                                         LED_COLOR_ID_GREEN
+                                         LED_COLOR_ID_BLUE>;
+                        spi-one-frame = <0x70>;
+                        spi-zero-frame = <0x40>;
                 };
         };
 };
