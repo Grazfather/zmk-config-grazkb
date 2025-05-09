@@ -1,3 +1,5 @@
+ZMK config and layout for the [graz-kb](https://github.com/Grazfather/graz-kb).
+
 ## Building
 1. Go into zmk/ directory
 2. Activate the venv `source ./.venv/bin/activate`
