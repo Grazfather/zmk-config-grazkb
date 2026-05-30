@@ -1,0 +1,5 @@
+if(CONFIG_ZMK_RGB_UNDERGLOW)
+  zephyr_library()
+  zephyr_library_sources(src/underglow_layer_status.c)
+  zephyr_library_include_directories(${CMAKE_SOURCE_DIR}/include)
+endif()

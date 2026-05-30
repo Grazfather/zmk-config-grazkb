@@ -54,7 +54,7 @@
 &pinctrl {
         ws2812_spi_default: ws2812_spi_default {
                 ws2812 {
-                        pinmux = <PIO0_P16>;
+                        pinmux = <PIO1_P16>;
                 };
         };
         pio0_spi0_default: pio0_spi0_default {
@@ -125,8 +125,8 @@
                         reg = <0>;
                         chain-length = <1>;
                         spi-max-frequency = <4000000>;
-                        color-mapping = <LED_COLOR_ID_RED
-                                         LED_COLOR_ID_GREEN
+                        color-mapping = <LED_COLOR_ID_GREEN
+                                         LED_COLOR_ID_RED
                                          LED_COLOR_ID_BLUE>;
                         spi-one-frame = <0x70>;
                         spi-zero-frame = <0x40>;
